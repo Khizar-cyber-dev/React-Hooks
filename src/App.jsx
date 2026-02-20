@@ -1,14 +1,17 @@
 // import { useEffect } from 'react'
 // import { PostListWithData } from './components/FetchPost'
 
-import React from "react";
+import React, { useReducer } from "react";
 import ModalComponent from "./components/ModalComponent";
 import Todo from "./components/Todo";
 import SearchFilter from "./components/SearchFilter";
 import Form from "./components/Form";
 import Otp from "./components/Otp";
 import CartSystem from "./components/CartSystem";
-import { useUserContext } from "./context/UserContext";
+import { useUserContext } from "./Hooks/context/UserContext";
+import Parent, { ParentWithHook } from "./Hooks/useImperativeHandle";
+import { reducer } from "./Hooks/useReducer";
+import FetchEffect from "./Hooks/useEffect";
 
 //import { useCallback } from "react"
 
@@ -254,32 +257,49 @@ import { useUserContext } from "./context/UserContext";
 //   )
 // }
 
+// export default function App() {
+//   const { theme, setTheme } = useUserContext();
+
+//   // Toggle function
+//   const toggleTheme = () => {
+//     setTheme(theme === "light" ? "dark" : "light");
+//   };
+
+//   return (
+//     <div
+//       style={{
+//         width: '100%',
+//         height: "100vh",
+//         backgroundColor: theme === "light" ? "white" : "black",
+//         color: theme === "light" ? "black" : "white",
+//         display: "flex",
+//         flexDirection: "column",
+//         justifyContent: "center",
+//         alignItems: "center"
+//       }}
+//     >
+//       <h1>Theme is {theme}</h1>
+//       <button onClick={toggleTheme}>
+//         Change theme
+//       </button>
+//       <SearchFilter />
+//     </div>
+//   );
+// }
+
 export default function App() {
-  const { theme, setTheme } = useUserContext();
-
-  // Toggle function
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
+  const [state, dispatch] = useReducer(reducer, 0);
+  if (state < 0) {
+    dispatch({type: 'increment'})
+  }
   return (
-    <div
-      style={{
-        width: '100%',
-        height: "100vh",
-        backgroundColor: theme === "light" ? "white" : "black",
-        color: theme === "light" ? "black" : "white",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <h1>Theme is {theme}</h1>
-      <button onClick={toggleTheme}>
-        Change theme
-      </button>
-      <SearchFilter />
+    <div>
+      <h1>Count: {state}</h1>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <Parent />
+      <ParentWithHook />
+      <FetchEffect />
     </div>
-  );
+  )
 }
