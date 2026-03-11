@@ -1,15 +1,17 @@
 // Making a todo App using localStorage
 import React from "react";
+import useLocalStorage from "../Hooks/Custom/useLocalStorage";
 
 export default function Todo() {
     const [todos, setTodos] = React.useState([])
     const [inputValue, setInputValue] = React.useState('')
+    const [storedTodo, setStoredTodo] = useLocalStorage('todos', [])
 
     React.useEffect(() => {
-        const storedTodos = localStorage.getItem('todos');
+        const storedTodos = storedTodo;
         console.log('Fetched todos from localStorage:', storedTodos);
         if(storedTodos) {
-            setTodos(JSON.parse(storedTodos))
+            setTodos(storedTodos)
         }
     }, [])
 
@@ -18,7 +20,7 @@ export default function Todo() {
         if(inputValue.trim() !== '') {
             const newTodos = [...todos, { id: now.getTime(), text: inputValue, completed: false}]
             setTodos(newTodos);
-            localStorage.setItem('todos', JSON.stringify(newTodos));
+            setStoredTodo(newTodos);
         }
         setInputValue('');
     }
@@ -29,11 +31,12 @@ export default function Todo() {
                 todo.id === id ? {...todo, completed: !todo.completed} : todo
             ))
         setTodos(updatedTodos);
-        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+        setStoredTodo(updatedTodos);
     }
 
     const deleteTodo = (id) => {
         setTodos(todos.filter((todo) => todo.id !== id))
+        setStoredTodo(todos.filter((todo) => todo.id !== id))
     }
     return (
         <div>

@@ -12,6 +12,12 @@ import { useUserContext } from "./Hooks/context/UserContext";
 import Parent, { ParentWithHook } from "./Hooks/useImperativeHandle";
 import { reducer } from "./Hooks/useReducer";
 import FetchEffect from "./Hooks/useEffect";
+import Counter from "./components/Counter";
+import { lazy, Suspense} from "react";
+import UseCallback from "./Hooks/useCallback";
+import InfiniteComponent from "./components/InfiniteScroll";
+import PaginationComponent from "./components/PaginationComponent";
+const UseMemo = lazy(() => import('./Hooks/useMemo'));
 
 //import { useCallback } from "react"
 
@@ -292,14 +298,32 @@ export default function App() {
   if (state < 0) {
     dispatch({type: 'increment'})
   }
+
+  const [count, setCount] = React.useState(0);
+  const handleClick = () => {
+   setCount(prev => prev + 1);
+   setCount(prev => prev + 1);
+  }
   return (
     <div>
-      <h1>Count: {state}</h1>
+      {/* <h1>Count: {state}</h1>
       <button onClick={() => dispatch({type: 'increment'})}>+</button>
       <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <h1>
+        Count: {count}
+      </h1>
+      <button onClick={handleClick}>Increment Count</button>
       <Parent />
       <ParentWithHook />
-      <FetchEffect />
+      <FetchEffect /> */}
+      {/* <Todo /> */}
+      {/* <Counter /> */}
+      {/* <Suspense fallback={<div>Loading...</div>}>
+        <UseMemo />
+      </Suspense>
+      <UseCallback /> */}
+      <InfiniteComponent />
+      <PaginationComponent />
     </div>
   )
 }
