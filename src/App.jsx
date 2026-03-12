@@ -17,6 +17,7 @@ import { lazy, Suspense} from "react";
 import UseCallback from "./Hooks/useCallback";
 import InfiniteComponent from "./components/InfiniteScroll";
 import PaginationComponent from "./components/PaginationComponent";
+import TabComponent from "./components/Tabs";
 const UseMemo = lazy(() => import('./Hooks/useMemo'));
 
 //import { useCallback } from "react"
@@ -294,6 +295,7 @@ const UseMemo = lazy(() => import('./Hooks/useMemo'));
 // }
 
 export default function App() {
+  const [isOpen, setIsOpen] = React.useState(false);
   const [state, dispatch] = useReducer(reducer, 0);
   if (state < 0) {
     dispatch({type: 'increment'})
@@ -304,6 +306,14 @@ export default function App() {
    setCount(prev => prev + 1);
    setCount(prev => prev + 1);
   }
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
     <div>
       {/* <h1>Count: {state}</h1>
@@ -322,8 +332,13 @@ export default function App() {
         <UseMemo />
       </Suspense>
       <UseCallback /> */}
-      <InfiniteComponent />
-      <PaginationComponent />
+      {/* <InfiniteComponent />
+      <PaginationComponent /> */}
+      <TabComponent />
+      <button onClick={openModal}>Open Modal</button>
+      <ModalComponent isOpen={isOpen} onClose={closeModal} title={"Khizar"}>
+        <p style={{color: "red"}}>This is the content of the modal.</p>
+     </ModalComponent> 
     </div>
   )
 }
