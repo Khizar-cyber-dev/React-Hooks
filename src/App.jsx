@@ -18,6 +18,7 @@ import UseCallback from "./Hooks/useCallback";
 import InfiniteComponent from "./components/InfiniteScroll";
 import PaginationComponent from "./components/PaginationComponent";
 import TabComponent from "./components/Tabs";
+import Accordion from "./components/Accordin";
 const UseMemo = lazy(() => import('./Hooks/useMemo'));
 
 //import { useCallback } from "react"
@@ -314,6 +315,21 @@ export default function App() {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const faqData = [
+        {
+            title: "What is React?",
+            content: "React is a JavaScript library for building user interfaces."
+        },
+        {
+            title: "What is JSX?",
+            content: "JSX is a syntax extension for JavaScript that looks like HTML."
+        },
+        {
+            title: "What are hooks?",
+            content: "Hooks are functions that let you use state in functional components."
+        }
+    ];
   return (
     <div>
       {/* <h1>Count: {state}</h1>
@@ -339,6 +355,7 @@ export default function App() {
       <ModalComponent isOpen={isOpen} onClose={closeModal} title={"Khizar"}>
         <p style={{color: "red"}}>This is the content of the modal.</p>
      </ModalComponent> 
+     <Accordion items={faqData} />
     </div>
   )
 }
